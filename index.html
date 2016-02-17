@@ -46,6 +46,12 @@
           var finished = data[href];
           b.setAttribute('fill', finished ? colors.finished : colors.unfinished);
         });
+
+        var titles = document.querySelectorAll('title');
+
+        Array.prototype.forEach.call(titles, function(e) {
+          e.parentNode.removeChild(e);
+        });
       });
     });
   </script>
