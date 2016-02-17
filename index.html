@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Space/Time Directory - Architecture</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <style>
+  body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
+
+  </style>
+</head>
+<body>
+  <div id='architecture'>
+  </div>
+  <script>
+    var colors = {
+      unfinished: '#FF4043',
+      finished: '#82DE3C'
+    };
+
+    d3.json('data.json', function(err, data) {
+      d3.xml('architecture.svg', function(err, doc) {
+        var svg = doc.querySelector('svg');
+        svg.removeAttribute('height', null);
+        svg.setAttribute('width', '100%');
+
+        document.getElementById('architecture').appendChild(doc.documentElement);
+
+        var allBlocks = document.querySelectorAll('path[fill]');
+
+        Array.prototype.forEach.call(allBlocks, function(b) {
+          b.setAttribute('fill', colors.unfinished);
+        });
+
+        var linkBlocks = document.querySelectorAll('a');
+
+        Array.prototype.forEach.call(linkBlocks, function(b) {
+          var href = b.getAttribute('xl:href');
+          var finished = data[href];
+          b.setAttribute('fill', finished ? colors.finished : colors.unfinished);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
