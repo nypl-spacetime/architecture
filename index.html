@@ -13,7 +13,6 @@
     height: 100%;
     position: absolute;
   }
-
   </style>
 </head>
 <body>
@@ -30,6 +29,7 @@
         var svg = doc.querySelector('svg');
         svg.removeAttribute('height', null);
         svg.setAttribute('width', '100%');
+        svg.style.minWidth = '1800px';
 
         document.getElementById('architecture').appendChild(doc.documentElement);
 
