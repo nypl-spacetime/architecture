@@ -1,3 +1,12 @@
 {
-  "https://github.com/nypl-spacetime/data-centerlines": true
+  "https://github.com/histograph/data-geonames": 0.9,
+  "https://github.com/histograph/data-tgn": 0.9,
+  "https://github.com/nypl-spacetime/data-centerlines": 0.8,
+  "https://github.com/nypl-spacetime/data-building-inspector": 0.6,
+  "https://github.com/nypl-spacetime/data-oldnyc": 0.8,
+  "https://github.com/nypl-spacetime/data-registry": 0.2,
+  "https://github.com/nypl-spacetime/data-fast": 0.6,
+  "https://github.com/nypl-spacetime/data-whosonfirst": 0.2,
+
+  "s3://spacetime.nypl.org/datasets/centerlines": 0.9
 }

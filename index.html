@@ -24,31 +24,74 @@
       finished: '#82DE3C'
     };
 
+    // SVG min and max width
+    var widths = [
+      1200,
+      1600
+    ];
+
+    var color = d3.scale.linear()
+      .domain([0, 1])
+      .range([colors.unfinished, colors.finished])
+      .interpolate(d3.interpolateHsl);
+
     d3.json('data.json', function(err, data) {
       d3.xml('architecture.svg', function(err, doc) {
         var svg = doc.querySelector('svg');
+
+        // Set SVG height & width
         svg.removeAttribute('height', null);
         svg.setAttribute('width', '100%');
-        svg.style.minWidth = '1800px';
+        svg.style.minWidth = widths[0] + 'px';
+        svg.style.maxWidth = widths[1] + 'px';
 
+        // Append SVG document to HTML
         document.getElementById('architecture').appendChild(doc.documentElement);
 
-        var allBlocks = document.querySelectorAll('path[fill]');
-
-        Array.prototype.forEach.call(allBlocks, function(b) {
-          b.setAttribute('fill', colors.unfinished);
-        });
+        // Keep all hrefs
+        var hrefs = [];
 
         var linkBlocks = document.querySelectorAll('a');
-
         Array.prototype.forEach.call(linkBlocks, function(b) {
           var href = b.getAttribute('xl:href');
+          hrefs.push(href);
+
           var finished = data[href];
-          b.setAttribute('fill', finished ? colors.finished : colors.unfinished);
+
+          b.onclick = function () {
+            console.log('Show README:', href + '/README.md');
+            return false;
+          };
+
+          if (finished !== undefined) {
+            if (finished === true) {
+              finished = 1;
+            }
+
+            b.setAttribute('fill', color(finished));
+          } else {
+            // b.setAttribute('fill', color(0));
+
+            // // TODO: if href contains github
+            //
+            // var label = '_architecture';
+            // var url = 'https://api.github.com/repos/nypl-spacetime/data-centerlines/issues?labels=finished&state=all';
+            // url = 'https://api.github.com/search/issues?q=repo:nypl-spacetime/data-centerlines+label:' + label
+            //
+            // d3.json(url, function(err, json) {
+            //   var count = json.items.length;
+            //   var finished = json.items.filter(i => i.state === 'closed').length;
+            //
+            //   var p = finished / count;
+            //   b.setAttribute('fill', color(p));
+            // });
+          }
         });
 
-        var titles = document.querySelectorAll('title');
+        console.log('All links in SVG:', hrefs);
 
+        // Remove title elements, they cause annoying mouse tooltips
+        var titles = document.querySelectorAll('title');
         Array.prototype.forEach.call(titles, function(e) {
           e.parentNode.removeChild(e);
         });
