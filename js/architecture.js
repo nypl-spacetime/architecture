@@ -1,5 +1,5 @@
 var ghUser = 'bert.spaan@gmail.com'
-var ghKey = '4b40031d5b922940b806039214d6934a39584fa6'
+var ghKey = 'a518c5b79a0c6a2c5efe7ecffa4cf1318ce45ac9'
 
 // localStorage TTL for GitHub API results
 var ttl = 60 * 60 * 1000
