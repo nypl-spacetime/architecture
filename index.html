@@ -4,99 +4,20 @@
   <title>Space/Time Directory - Architecture</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
-  <style>
-  body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    position: absolute;
-  }
-  </style>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/d3.v3.min.js" charset="utf-8"></script>
 </head>
 <body>
-  <div id='architecture'>
+  <div class="container">
+    <h1>Space/Time Directory Architecture</h1>
+    <p>This diagram shows the architecture of the <a href="http://spacetime.nypl.org">Space/Time Directory</a> project.</p>
+    <p>Red badges show number of open GitHub issues.
+    <p><b>TODO:</b> clicking on blocks should show GitHub README, better colors, better legend, better texts, better everything! 🚚</a>
+    <div id='architecture'>
+    </div>
   </div>
-  <script>
-    var colors = {
-      unfinished: '#FF4043',
-      finished: '#82DE3C'
-    };
-
-    // SVG min and max width
-    var widths = [
-      1200,
-      1600
-    ];
-
-    var color = d3.scale.linear()
-      .domain([0, 1])
-      .range([colors.unfinished, colors.finished])
-      .interpolate(d3.interpolateHsl);
-
-    d3.json('data.json', function(err, data) {
-      d3.xml('architecture.svg', function(err, doc) {
-        var svg = doc.querySelector('svg');
-
-        // Set SVG height & width
-        svg.removeAttribute('height', null);
-        svg.setAttribute('width', '100%');
-        svg.style.minWidth = widths[0] + 'px';
-        svg.style.maxWidth = widths[1] + 'px';
-
-        // Append SVG document to HTML
-        document.getElementById('architecture').appendChild(doc.documentElement);
-
-        // Keep all hrefs
-        var hrefs = [];
-
-        var linkBlocks = document.querySelectorAll('a');
-        Array.prototype.forEach.call(linkBlocks, function(b) {
-          var href = b.getAttribute('xl:href');
-          hrefs.push(href);
-
-          var finished = data[href];
-
-          b.onclick = function () {
-            console.log('Show README:', href + '/README.md');
-            return false;
-          };
-
-          if (finished !== undefined) {
-            if (finished === true) {
-              finished = 1;
-            }
-
-            b.setAttribute('fill', color(finished));
-          } else {
-            // b.setAttribute('fill', color(0));
-
-            // // TODO: if href contains github
-            //
-            // var label = '_architecture';
-            // var url = 'https://api.github.com/repos/nypl-spacetime/data-centerlines/issues?labels=finished&state=all';
-            // url = 'https://api.github.com/search/issues?q=repo:nypl-spacetime/data-centerlines+label:' + label
-            //
-            // d3.json(url, function(err, json) {
-            //   var count = json.items.length;
-            //   var finished = json.items.filter(i => i.state === 'closed').length;
-            //
-            //   var p = finished / count;
-            //   b.setAttribute('fill', color(p));
-            // });
-          }
-        });
-
-        console.log('All links in SVG:', hrefs);
-
-        // Remove title elements, they cause annoying mouse tooltips
-        var titles = document.querySelectorAll('title');
-        Array.prototype.forEach.call(titles, function(e) {
-          e.parentNode.removeChild(e);
-        });
-      });
-    });
-  </script>
+  <script src="js/architecture.js" charset="utf-8"></script>
 </body>
 </html>
