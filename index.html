@@ -8,16 +8,43 @@
   <link rel="stylesheet" href="css/skeleton.css">
   <link rel="stylesheet" href="css/style.css">
   <script src="js/d3.v3.min.js" charset="utf-8"></script>
+  <link rel="shortcut icon" href="images/favicon.png">
 </head>
 <body>
+  <header></header>
   <div class="container">
     <h1>Space/Time Directory Architecture</h1>
-    <p>This diagram shows the architecture of the <a href="http://spacetime.nypl.org">Space/Time Directory</a> project.</p>
-    <p>Red badges show number of open GitHub issues.
-    <p><b>TODO:</b> clicking on blocks should show GitHub README, better colors, better legend, better texts, better everything! 🚚</a>
+    <p>
+      This diagram shows <i>current state</i> of the <a href="http://spacetime.nypl.org">Space/Time Directory</a> project technical architecture.
+      The diagram shows how tools and components work together, and how they share data. It does not show the final state of the project — new blocks will be added as the project
+      procedes and work is started on new datasets, data processing tools and user interfaces.
+    </p>
+    <p>
+      In this diagram, only code and data components of the Space/Time Directory project are shown. Other, and equally important parts of the project (e.g. outreach, meetups, hackathons, collaborations),
+      are (currently) not shown in this diagram.
+    </p>
+    <p>
+      Finished components are <span class='legend-block finished-color5'>green</span>, components on which work has not started are <span class='legend-block finished-color1'>white</span>,
+      and components on which we are currently working are shaded green according to their finished state. External, non-Space/Time components have
+      a <span class='legend-block legend-block-external finished-color0'>dashed</span> line. For components with associated GitHub repositories, the number of open issues
+      are shown in the <span class='legend-badge'>red</span> badges.
+    </p>
     <div id='architecture'>
     </div>
+    <p>
+      This architecture diagram can be <a href="https://github.com/nypl-spacetime/architecture">found on
+      GitHub</a> too. Please <a href="https://github.com/nypl-spacetime/architecture/issues">open an issue</a> if
+      the diagram is incorrect or out of date.
+    </p>
+    <div id="popup" class="arrow-box hidden">
+      DIT is het hier staat het Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+       tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+        ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+         dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt
+          in culpa qui officia deserunt mollit anim id est laborum.
+    </div>
   </div>
+  <footer></footer>
   <script src="js/architecture.js" charset="utf-8"></script>
 </body>
 </html>

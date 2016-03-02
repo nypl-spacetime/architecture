@@ -90,10 +90,177 @@
 
 body {
   background-color: #fcfcfc;
-  font-family: "Open Sans";
+  font-family: 'Open Sans';
 }
 
-/*.id {
-  font-family: 'Inconsolata';
-  font-size: 1.5rem;
-}*/
+body,
+a,
+a:visited {
+  color: #111;
+}
+
+a:hover {
+  color: #68B400;
+}
+
+header {
+  width: 100%;
+  height: 5px;
+  background-color: #68B400;
+}
+
+header {
+  margin-bottom: 2em;
+}
+
+footer {
+  margin-top: 2em;
+}
+
+body {
+  font-size: 1.8em;
+  min-width: 1200px;
+}
+
+/* Override Skeleton width */
+.container {
+  max-width: 1100px;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Architecture
+   ========================================================================== */
+
+#architecture svg {
+  width: 100%;
+}
+
+#architecture svg {
+  margin-bottom: 2em;
+}
+
+@media (min-width: 1450px) {
+  #architecture svg {
+    width: calc(100% + 150px);
+    margin-left: -150px;
+  }
+}
+
+@media (min-width: 1750px) {
+  #architecture svg {
+    width: calc(100% + 300px);
+    margin-left: -300px;
+  }
+}
+
+.badge circle {
+  fill: #f50000;
+  stroke-width: 3;
+  stroke: rgba(255, 255, 255, 0.5);
+}
+
+.badge text {
+  font-family: 'Open Sans';
+  font-size: 21px;
+  font-weight: 500;
+  text-anchor: middle;
+  fill: white;
+}
+
+/* Legend
+   ========================================================================== */
+
+.legend-block {
+  border-width: 1.9px;
+  border-style: solid;
+  border-color: black;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.legend-block-external {
+  border-style: dashed;
+}
+
+.legend-badge {
+  background-color: #f50000;
+  border-width: 2px;
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.5);
+  border-radius: 100px;
+  padding: 4px;
+  color: white;
+}
+
+/* Colors
+   ========================================================================== */
+
+.finished-error path {
+  stroke: #f50000;
+  stroke-width: 3px;
+}
+
+.finished-color1 {
+  fill: white;
+  background-color: white;
+}
+
+.finished-color2 {
+  fill: #D9ECBF;
+  background-color: #D9ECBF;
+}
+
+.finished-color3 {
+  fill: #B3D97F;
+  background-color: #B3D97F;
+}
+
+.finished-color4 {
+  fill: #8DC63F;
+  background-color: #8DC63F;
+}
+
+.finished-color5 {
+  fill: #68B400;
+  background-color: #68B400;
+}
+
+/* Pop-up arrow box
+   ========================================================================== */
+
+.arrow-box {
+	position: absolute;
+	background: white;
+	border: 2px solid black;
+  border-radius: 3px;
+  width: 600px;
+  padding: 8px;
+  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+}
+
+.arrow-box:after, .arrow-box:before {
+	bottom: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: ' ';
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
+
+.arrow-box:after {
+	/*border-color: rgba(0, 0, 0, 0);*/
+	border-bottom-color: white;
+	border-width: 30px;
+	margin-left: -30px;
+}
+.arrow-box:before {
+	/*border-color: rgba(194, 225, 245, 0);*/
+	border-bottom-color: black;
+	border-width: 33px;
+	margin-left: -33px;
+}

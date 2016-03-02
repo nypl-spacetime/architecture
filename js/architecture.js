@@ -11,51 +11,46 @@ var colors = {
   progressEnd: '#ffe91e'
 }
 
-// SVG min and max width
-var widths = [
-  1200,
-  1600
-]
-
-var colorScale = d3.scale.linear()
-  .domain([0, 1])
-  .range([colors.progressStart, colors.progressEnd])
-  .interpolate(d3.interpolateHsl)
-
+var legendColorsCount = 5
+var legendColorClass = 'finished-color'
 function getColor(p) {
-  var color = colors.unfinished
+  var step = 1 / (legendColorsCount - 2)
 
-  if (p > 0.05) {
-    if (p >= 0.95) {
-      color = colors.finished
-    } else {
-      color = colorScale(p)
-    }
+  if (p < 0.001) {
+    return legendColorClass + '1'
+  } else if (p > 0.999) {
+    return legendColorClass + legendColorsCount
+  } else {
+    return legendColorClass + (Math.floor(p / step) + 1)
   }
-
-  return color
 }
 
-function createBadge(b, json) {
+function makeAuth(user, password) {
+  var tok = user + ':' + password
+  var hash = btoa(tok)
+  return 'Basic ' + hash
+}
+
+function addGitHubAuth(request) {
+  return request
+    .header('Authorization', makeAuth(ghUser, ghKey))
+}
+
+function createBadge(svg, b, json) {
   if (json && json.open_issues_count) {
     var bbox = b.getBBox()
 
     var radius = 18
 
-    d3.select(b).append('circle')
+    var badge = d3.select(svg).append('g')
+      .attr('class', 'badge')
+
+    badge.append('circle')
       .attr('cx', bbox.x + bbox.width)
       .attr('cy', bbox.y)
       .attr('r', radius)
-      .style('fill', '#f50000')
-      .style('stroke-width', '3')
-      .style('stroke', 'rgba(255, 255, 255, 0.5)')
 
-    d3.select(b).append('text')
-      .attr('font-family', 'Open Sans')
-      .attr('font-size', 21)
-      .attr('font-weight', 500)
-      .attr('text-anchor', 'middle')
-      .style('fill', 'white')
+    badge.append('text')
       .attr('transform', 'translate(' + Math.round(bbox.x + bbox.width) + ' ' + Math.round(bbox.y + radius / 2 - 1) + ')')
       .html(json.open_issues_count)
   }
@@ -89,18 +84,105 @@ function setItem(key, data) {
   localStorage.setItem(key, str)
 }
 
+function getReadmeMarkdown(href, callback) {
+  var apiUrl = href.replace('https://github.com/', 'https://api.github.com/repos/') + '/readme'
+
+  addGitHubAuth(d3.html(apiUrl))
+    .header('Accept', 'application/vnd.github.VERSION.html')
+    .get(callback)
+}
+
+var popupBaseUrls = [
+  {
+    baseUrl: 'https://github.com/',
+    getContents: getReadmeMarkdown
+  }
+]
+
+function createPopup(href, point) {
+  var getContents
+
+  for (var i = 0; i < popupBaseUrls.length; i++) {
+    if (href.startsWith(popupBaseUrls[i].baseUrl)) {
+      getContents = popupBaseUrls[i].getContents
+      break;
+    }
+  }
+
+  if (getContents) {
+
+    getContents(href, function(err, html) {
+      d3.select('#popup')
+        .classed('hidden', false)
+        .style('left', point.x + 'px')
+        .style('top', point.y + 'px')
+
+      var popup = document.getElementById('popup')
+
+      // Clear previous contents
+      while (popup.firstChild) {
+        popup.removeChild(popup.firstChild);
+      }
+
+      var childNodes = html.firstChild.firstChild.childNodes;
+      for (var i = 0, len = childNodes.length; i < Math.min(len, 4); i++) {
+        popup.appendChild(childNodes[i]);
+      }
+
+    })
+  } else {
+    d3.select('#popup')
+      .classed('hidden', true)
+  }
+}
+
+var cumulativeOffset = function(element) {
+    var top = 0, left = 0;
+    do {
+        top += element.offsetTop  || 0;
+        left += element.offsetLeft || 0;
+        element = element.offsetParent;
+    } while(element);
+
+    return {
+        top: top,
+        left: left
+    };
+};
+
+function getPopupLocation(archElement, svgDoc, element) {
+  var matrix = element.getScreenCTM()
+  var bbox = element.getBBox()
+
+  var x = Math.round(bbox.x + (bbox.width / 2))
+  var y = (bbox.y + bbox.height)
+
+  // d3.select('#popup')
+
+  var svgPos = cumulativeOffset(archElement)
+  // console.log(svgDoc.offsetLeft, svgDoc.scrollLeft)
+
+  // console.log(svgPos)
+  // console.log(bbox)
+
+  var chips = {
+    x: (matrix.a * x) + (matrix.c * y) - 310 - 300,
+    y: (matrix.b * x) + (matrix.d * y) + svgPos.top
+  }
+  return chips
+}
+
 d3.json('data.json', function(err, data) {
   d3.xml('architecture.svg', function(err, doc) {
     var svg = doc.querySelector('svg')
 
     // Set SVG height & width
     svg.removeAttribute('height', null)
-    svg.setAttribute('width', '100%')
-    svg.style.minWidth = widths[0] + 'px'
-    svg.style.maxWidth = widths[1] + 'px'
 
     // Append SVG document to HTML
-    document.getElementById('architecture').appendChild(doc.documentElement)
+    var archElement = document.getElementById('architecture')
+
+    archElement.appendChild(doc.documentElement)
 
     var linkBlocks = document.querySelectorAll('svg a')
     Array.prototype.forEach.call(linkBlocks, function(b) {
@@ -108,41 +190,34 @@ d3.json('data.json', function(err, data) {
 
       var done = data[href]
 
-      b.onclick = function () {
-        console.log('Show README:', href + '/README.md')
-        return false
+      b.onclick = function (e) {
+        e.preventDefault()
+        createPopup(href, getPopupLocation(archElement, svg, this))
       };
 
       if (done !== undefined) {
-        b.setAttribute('fill', getColor(done))
+        b.setAttribute('class', getColor(done))
       } else {
-        console.log('Link not found in data.json:', href)
+        console.error('Link not found in data.json:', href)
+        b.setAttribute('class', 'finished-error')
       }
 
       if (href && href.startsWith('https://github.com/')) {
         var results = getItem(href)
 
         if (results) {
-          createBadge(b, results)
+          createBadge(svg, b, results)
         } else {
           var apiUrl = href.replace('https://github.com/', 'https://api.github.com/repos/')
 
-          function makeAuth(user, password) {
-            var tok = user + ':' + password
-            var hash = btoa(tok)
-            return 'Basic ' + hash
-          }
-
-          d3.json(apiUrl)
-            .header('Authorization', makeAuth(ghUser, ghKey))
-            .get(function(err, json) {
-              if (err) {
-                setItem(href, {open_issues_count: 0})
-              } else {
-                setItem(href, json)
-                createBadge(b, json)
-              }
-            })
+          addGitHubAuth(d3.json(apiUrl)).get(function(err, json) {
+            if (err) {
+              setItem(href, {open_issues_count: 0})
+            } else {
+              setItem(href, json)
+              createBadge(svg, b, json)
+            }
+          })
         }
       }
     })
