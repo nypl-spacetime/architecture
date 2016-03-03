@@ -136,21 +136,22 @@ function createPopup(href, point) {
   }
 }
 
-var cumulativeOffset = function(element) {
-    var top = 0, left = 0;
-    do {
-        top += element.offsetTop  || 0;
-        left += element.offsetLeft || 0;
-        element = element.offsetParent;
-    } while(element);
+function cumulativeOffset (element) {
+  var top = 0
+  var left = 0
+  do {
+    top += element.offsetTop  || 0
+    left += element.offsetLeft || 0
+    element = element.offsetParent;
+  } while (element);
 
-    return {
-        top: top,
-        left: left
-    };
-};
+  return {
+    top: top,
+    left: left
+  }
+}
 
-function getPopupLocation(archElement, svgDoc, element) {
+function getPopupLocation (archElement, svgDoc, element) {
   var matrix = element.getScreenCTM()
   var bbox = element.getBBox()
 
