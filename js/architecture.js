@@ -1,6 +1,3 @@
-var ghUser = 'bert.spaan@gmail.com'
-var ghKey = 'a518c5b79a0c6a2c5efe7ecffa4cf1318ce45ac9'
-
 // localStorage TTL for GitHub API results
 var ttl = 60 * 60 * 1000
 
@@ -26,7 +23,7 @@ function makeAuth(user, password) {
 
 function addGitHubAuth(request) {
   return request
-    .header('Authorization', makeAuth(ghUser, ghKey))
+    .header('Authorization', makeAuth(gitHubAuth.user, gitHubAuth.key))
 }
 
 function createBadge(svg, b, json) {
