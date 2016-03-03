@@ -4,13 +4,6 @@ var ghKey = 'a518c5b79a0c6a2c5efe7ecffa4cf1318ce45ac9'
 // localStorage TTL for GitHub API results
 var ttl = 60 * 60 * 1000
 
-var colors = {
-  unfinished: '#ed2c25',
-  finished: '#80c626',
-  progressStart: '#ff6a1f',
-  progressEnd: '#ffe91e'
-}
-
 var legendColorsCount = 5
 var legendColorClass = 'finished-color'
 function getColor(p) {
