@@ -24,8 +24,10 @@ function makeAuth(user, password) {
 }
 
 function addGitHubAuth(request) {
+  // return request
+  //   .header('Authorization', makeAuth(gitHubAuth.user, gitHubAuth.key))
+
   return request
-    .header('Authorization', makeAuth(gitHubAuth.user, gitHubAuth.key))
 }
 
 function createBadge(svg, b, json) {

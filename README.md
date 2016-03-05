@@ -37,8 +37,6 @@ You can set the finished state of your components in [`data.json`](data.json) (0
 }
 ```
 
-And finally, replace __my__ GitHub authorization in [`js/github-auth.js`](js/github-auth.js) token with yours!
-
 # License
 
 MIT
