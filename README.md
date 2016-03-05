@@ -2,6 +2,8 @@
 
 See http://spacetime.nypl.org/architecture/.
 
+![](images/screenshot.png)
+
 ## Create your own architecture diagram!
 
 It's easy! Download and install [Omnigraffle](https://www.omnigroup.com/omnigraffle), create your architecture diagram and add links to each component's GitHub repository:
