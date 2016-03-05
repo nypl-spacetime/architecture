@@ -1,6 +1,8 @@
 // localStorage TTL for GitHub API results
 var ttl = 60 * 60 * 1000
 
+var currentPopupHref
+
 var legendColorsCount = 5
 var legendColorClass = 'finished-color'
 function getColor(p) {
@@ -11,7 +13,7 @@ function getColor(p) {
   } else if (p > 0.999) {
     return legendColorClass + legendColorsCount
   } else {
-    return legendColorClass + (Math.floor(p / step) + 1)
+    return legendColorClass + (Math.floor(p / step) + 2)
   }
 }
 
@@ -63,6 +65,10 @@ function getItem(key) {
   }
 }
 
+document.addEventListener('click', function () {
+  hidePopup()
+})
+
 function setItem(key, data) {
   var timestamp = Date.now();
 
@@ -74,12 +80,29 @@ function setItem(key, data) {
   localStorage.setItem(key, str)
 }
 
+function fragmentFromString(htmlStr) {
+  return document.createRange().createContextualFragment(htmlStr);
+}
+
 function getReadmeMarkdown(href, callback) {
   var apiUrl = href.replace('https://github.com/', 'https://api.github.com/repos/') + '/readme'
+  var htmlStr = getItem(apiUrl)
 
-  addGitHubAuth(d3.html(apiUrl))
-    .header('Accept', 'application/vnd.github.VERSION.html')
-    .get(callback)
+  if (htmlStr) {
+    callback(null, fragmentFromString(htmlStr))
+  } else {
+    addGitHubAuth(d3.html(apiUrl))
+      .header('Accept', 'application/vnd.github.VERSION.html')
+      .get(function(err, html) {
+        if (err) {
+          setItem(apiUrl, '')
+        } else {
+          var htmlStr = new XMLSerializer().serializeToString(html);
+          setItem(apiUrl, htmlStr)
+        }
+        callback(err, html)
+      })
+  }
 }
 
 var popupBaseUrls = [
@@ -88,6 +111,11 @@ var popupBaseUrls = [
     getContents: getReadmeMarkdown
   }
 ]
+
+function hidePopup() {
+  d3.select('#popup')
+    .classed('hidden', true)
+}
 
 function createPopup(href, point) {
   var getContents
@@ -100,7 +128,6 @@ function createPopup(href, point) {
   }
 
   if (getContents) {
-
     getContents(href, function(err, html) {
       d3.select('#popup')
         .classed('hidden', false)
@@ -182,8 +209,21 @@ d3.json('data.json', function(err, data) {
       var done = data[href]
 
       b.onclick = function (e) {
+        e.stopPropagation()
         e.preventDefault()
-        createPopup(href, getPopupLocation(archElement, svg, this))
+
+        // TODO: finish popup positioning!
+        return
+
+        var popupShown = !d3.select('#popup')
+          .classed('hidden')
+
+        if (currentPopupHref !== href || !popupShown) {
+          createPopup(href, getPopupLocation(archElement, svg, this))
+        } else {
+          hidePopup()
+        }
+        currentPopupHref = href
       };
 
       if (done !== undefined) {

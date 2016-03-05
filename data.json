@@ -7,7 +7,7 @@
 
   "https://github.com/nypl-spacetime/histograph-db-elasticsearch": 0.1,
   "https://github.com/nypl-spacetime/histograph-db-postgis": 0.1,
-    "https://github.com/nypl-spacetime/histograph-db-neo4j": 0.1,
+  "https://github.com/nypl-spacetime/histograph-db-neo4j": 0.1,
 
   "https://github.com/nypl-spacetime/client-api": 0.1,
   "https://github.com/nypl-spacetime/query-api": 0.1,
@@ -21,6 +21,7 @@
 
   "https://github.com/nypl-spacetime/data-registry": 0.1,
   "https://github.com/nypl-spacetime/data-building-inspector": 0.5,
+  "https://github.com/nypl-spacetime/data-1854-directory": 0.1,
   "https://github.com/nypl-spacetime/data-mapwarper": 0.6,
   "https://github.com/nypl-spacetime/data-oldnyc": 0.8,
   "https://github.com/nypl-spacetime/data-centerlines": 0.7,
@@ -28,19 +29,22 @@
   "https://github.com/nypl-spacetime/data-geonames": 0.8,
   "https://github.com/nypl-spacetime/data-tgn": 0.8,
   "https://github.com/nypl-spacetime/data-fast": 0.4,
+  "https://github.com/nypl-spacetime/data-wards": 0.8,
 
-  "https://github.com/nypl-spacetime/data-model": 0.5,
+  "https://github.com/nypl-spacetime/ontology": 0.4,
 
-  "s3://spacetime.nypl.org/datasets/registry": 0.1,
-  "s3://spacetime.nypl.org/datasets/building-inspector": 0.1,
-  "s3://spacetime.nypl.org/datasets/mapwarper": 0.1,
-  "s3://spacetime.nypl.org/datasets/oldnyc": 0.1,
-  "s3://spacetime.nypl.org/datasets/geonames": 0.1,
-  "s3://spacetime.nypl.org/datasets/whosonfirst": 0.1,
-  "s3://spacetime.nypl.org/datasets/tgn": 0.1,
-  "s3://spacetime.nypl.org/datasets/fast": 0.1,
-  "s3://spacetime.nypl.org/datasets/menus": 0.1,
-  "s3://spacetime.nypl.org/datasets/building-inspector-addresses": 0.1,
-  "s3://spacetime.nypl.org/datasets/centerlines": 0.1,
-  "s3://spacetime.nypl.org/datasets/where": 0.1
+  "s3://spacetime.nypl.org/datasets/registry": 0,
+  "s3://spacetime.nypl.org/datasets/building-inspector": 0,
+  "s3://spacetime.nypl.org/datasets/mapwarper": 0,
+  "s3://spacetime.nypl.org/datasets/oldnyc": 0,
+  "s3://spacetime.nypl.org/datasets/geonames": 0,
+  "s3://spacetime.nypl.org/datasets/whosonfirst": 0,
+  "s3://spacetime.nypl.org/datasets/tgn": 0,
+  "s3://spacetime.nypl.org/datasets/fast": 0,
+  "s3://spacetime.nypl.org/datasets/menus": 0,
+  "s3://spacetime.nypl.org/datasets/building-inspector-addresses": 0,
+  "s3://spacetime.nypl.org/datasets/1854-directory": 0,
+  "s3://spacetime.nypl.org/datasets/centerlines": 0,
+  "s3://spacetime.nypl.org/datasets/where": 0,
+  "s3://spacetime.nypl.org/datasets/wards": 0
 }

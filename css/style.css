@@ -119,12 +119,13 @@ footer {
 
 body {
   font-size: 1.8em;
-  min-width: 1200px;
+  /*min-width: 1200px;*/
 }
 
 /* Override Skeleton width */
 .container {
-  max-width: 1100px;
+  /*max-width: 1100px;*/
+  max-width: 800px;
 }
 
 .hidden {
@@ -135,7 +136,8 @@ body {
    ========================================================================== */
 
 #architecture svg {
-  width: 100%;
+  width: 120%;
+  margin-left: -10%;
 }
 
 #architecture svg {
@@ -144,14 +146,14 @@ body {
 
 @media (min-width: 1450px) {
   #architecture svg {
-    width: calc(100% + 150px);
+    width: calc(100% + 300px);
     margin-left: -150px;
   }
 }
 
-@media (min-width: 1750px) {
+@media (min-width: 1650px) {
   #architecture svg {
-    width: calc(100% + 300px);
+    width: calc(100% + 600px);
     margin-left: -300px;
   }
 }
@@ -234,11 +236,11 @@ body {
 .arrow-box {
 	position: absolute;
 	background: white;
-	border: 2px solid black;
+	border: 1px solid black;
   border-radius: 3px;
   width: 600px;
   padding: 8px;
-  box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 50px 8px rgba(0,0,0,0.25);
 }
 
 .arrow-box:after, .arrow-box:before {
@@ -255,12 +257,12 @@ body {
 .arrow-box:after {
 	/*border-color: rgba(0, 0, 0, 0);*/
 	border-bottom-color: white;
-	border-width: 30px;
-	margin-left: -30px;
+	border-width: 10px;
+	margin-left: -10px;
 }
 .arrow-box:before {
 	/*border-color: rgba(194, 225, 245, 0);*/
 	border-bottom-color: black;
-	border-width: 33px;
-	margin-left: -33px;
+	border-width: 12px;
+	margin-left: -12px;
 }
