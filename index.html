@@ -7,15 +7,16 @@
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/skeleton.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/popup.css">
   <script src="js/d3.v3.min.js" charset="utf-8"></script>
   <link rel="shortcut icon" href="images/favicon.png">
 </head>
 <body>
   <header></header>
-  <div class="container">
+  <div class="container" id="contents">
     <h1>Space/Time Directory - Architecture</h1>
     <p>
-      This diagram shows <i>current state</i> of the <a href="http://spacetime.nypl.org">Space/Time Directory</a> project technical architecture.
+      This diagram shows the <i>current state</i> of the <a href="http://spacetime.nypl.org">Space/Time Directory</a>'s technical architecture.
       The diagram shows how tools and components work together, and how they share data. It does not show the final state of the project — new blocks will be added as the project
       procedes and work is started on new datasets, data processing tools and user interfaces. Parts of the Space/Time Directory are based on <a href="http://histograph.io">Histograph</a>,
       a search engine for historical place names built by <a href="http://waag.org">Waag Society</a>.
@@ -28,7 +29,7 @@
       Finished components are <span class='legend-block finished-color5'>green</span>, components on which work has not started are <span class='legend-block finished-color1'>white</span>,
       and components on which we are currently working are shaded green according to their finished state. External, non-Space/Time components are white with
       a <span class='legend-block legend-block-external finished-color0'>dashed</span> line. For components with associated GitHub repositories, the number of open issues
-      are shown in the <span class='legend-badge'>red</span> badges. <b>TODO:</b> Click on components for more information!
+      are shown in the <span class='legend-badge'>red</span> badges.
     </p>
     <div id='architecture'>
     </div>
@@ -38,6 +39,11 @@
       the diagram is incorrect or out of date. And it's easy to <a href="https://github.com/nypl-spacetime/architecture/blob/gh-pages/README.md">make a similar diagram</a> for your own project!
     </p>
     <div id="popup" class="arrow-box hidden">
+      <div id="popup-link">
+        <a href="" target="_blank">Open this README in a new window</a>
+      </div>
+      <div id="popup-contents" class="markdown-body">
+      </div>
     </div>
   </div>
   <footer></footer>

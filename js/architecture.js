@@ -24,13 +24,15 @@ function makeAuth(user, password) {
 }
 
 function addGitHubAuth(request) {
-  // return request
-  //   .header('Authorization', makeAuth(gitHubAuth.user, gitHubAuth.key))
-
-  return request
+  if (gitHubAuth.user && gitHubAuth.key) {
+    return request
+      .header('Authorization', makeAuth(gitHubAuth.user, gitHubAuth.key))
+  } else {
+    return request
+  }
 }
 
-function createBadge(svg, b, json) {
+function createBadge (svg, b, json) {
   if (json && json.open_issues_count) {
     var bbox = b.getBBox()
 
@@ -50,7 +52,7 @@ function createBadge(svg, b, json) {
   }
 }
 
-function getItem(key) {
+function getItem (key) {
   try {
     var str = localStorage.getItem(key)
     var obj = JSON.parse(str)
@@ -71,8 +73,8 @@ document.addEventListener('click', function () {
   hidePopup()
 })
 
-function setItem(key, data) {
-  var timestamp = Date.now();
+function setItem (key, data) {
+  var timestamp = Date.now()
 
   var str = JSON.stringify({
     timestamp: timestamp,
@@ -86,12 +88,37 @@ function fragmentFromString(htmlStr) {
   return document.createRange().createContextualFragment(htmlStr);
 }
 
+function makeAbsolute(baseUrl, url) {
+  var currentUrl = window.location.href.replace(window.location.hash, '')
+  if (url.startsWith(currentUrl)) {
+    return url.replace(currentUrl, baseUrl)
+  }
+  return url
+}
+
+function fixRelativeLinks(href, html) {
+  if (html) {
+    var baseUrl = href.replace('https://github.com', 'https://raw.githubusercontent.com') + '/master/'
+
+    var srcs = html.querySelectorAll('*[src]')
+    for (var i = 0; i < srcs.length; ++i) {
+      srcs[i].src = makeAbsolute(baseUrl, srcs[i].src)
+    }
+
+    var hrefs = html.querySelectorAll('*[href]')
+    for (var i = 0; i < hrefs.length; ++i) {
+      hrefs[i].href = makeAbsolute(baseUrl, hrefs[i].href)
+    }
+  }
+  return html
+}
+
 function getReadmeMarkdown(href, callback) {
   var apiUrl = href.replace('https://github.com/', 'https://api.github.com/repos/') + '/readme'
   var htmlStr = getItem(apiUrl)
 
   if (htmlStr) {
-    callback(null, fragmentFromString(htmlStr))
+    callback(null, fixRelativeLinks(href, fragmentFromString(htmlStr)))
   } else {
     addGitHubAuth(d3.html(apiUrl))
       .header('Accept', 'application/vnd.github.VERSION.html')
@@ -102,7 +129,7 @@ function getReadmeMarkdown(href, callback) {
           var htmlStr = new XMLSerializer().serializeToString(html);
           setItem(apiUrl, htmlStr)
         }
-        callback(err, html)
+        callback(err, fixRelativeLinks(href, html))
       })
   }
 }
@@ -131,21 +158,29 @@ function createPopup(href, point) {
 
   if (getContents) {
     getContents(href, function(err, html) {
-      d3.select('#popup')
-        .classed('hidden', false)
-        .style('left', point.x + 'px')
-        .style('top', point.y + 'px')
+      if (html) {
+        d3.select('#popup')
+          .classed('hidden', false)
+          .style('left', point.x + 'px')
+          .style('top', point.y + 'px')
 
-      var popup = document.getElementById('popup')
+        document.getElementById('popup-contents').scrollTop = 0
 
-      // Clear previous contents
-      while (popup.firstChild) {
-        popup.removeChild(popup.firstChild);
-      }
+        var popup = document.getElementById('popup-contents')
 
-      var childNodes = html.firstChild.firstChild.childNodes;
-      for (var i = 0, len = childNodes.length; i < Math.min(len, 4); i++) {
-        popup.appendChild(childNodes[i]);
+        // Set href of README link
+        document.querySelector('#popup-link a').href = href
+
+        // Clear previous contents
+        while (popup.firstChild) {
+          popup.removeChild(popup.firstChild);
+        }
+
+        // Add contents as child of popup element
+        popup.appendChild(html.firstChild.firstChild)
+      } else {
+        d3.select('#popup')
+          .classed('hidden', true)
       }
 
     })
@@ -177,19 +212,21 @@ function getPopupLocation (archElement, svgDoc, element) {
   var x = Math.round(bbox.x + (bbox.width / 2))
   var y = (bbox.y + bbox.height)
 
-  // d3.select('#popup')
-
   var svgPos = cumulativeOffset(archElement)
-  // console.log(svgDoc.offsetLeft, svgDoc.scrollLeft)
 
-  // console.log(svgPos)
-  // console.log(bbox)
+  var popup = document.querySelector('#popup')
+  var popupStyle = getComputedStyle(popup)
+  var popupWidth = parseInt(popupStyle.width.replace('px', ''))
 
-  var chips = {
-    x: (matrix.a * x) + (matrix.c * y) - 310 - 300,
-    y: (matrix.b * x) + (matrix.d * y) + svgPos.top
+  var svgStyle = getComputedStyle(svgDoc)
+  var svgMarginLeft = parseInt(svgStyle.marginLeft.replace('px', ''))
+
+  var location = {
+    x: (matrix.a * x) + (matrix.c * y) + svgMarginLeft - Math.round(popupWidth / 2),
+    y: (matrix.b * x) + (matrix.d * y) + svgPos.top - 25
   }
-  return chips
+
+  return location
 }
 
 d3.json('data.json', function(err, data) {
@@ -213,9 +250,6 @@ d3.json('data.json', function(err, data) {
       b.onclick = function (e) {
         e.stopPropagation()
         e.preventDefault()
-
-        // TODO: finish popup positioning!
-        return
 
         var popupShown = !d3.select('#popup')
           .classed('hidden')
@@ -253,14 +287,6 @@ d3.json('data.json', function(err, data) {
           })
         }
       }
-    })
-
-    // Set legend colors
-    var legendItems = document.querySelectorAll('rect[fill="#ff9cf8"]')
-    Array.prototype.forEach.call(legendItems, function(e, i) {
-      var p = (i / (legendItems.length - 1))
-
-      e.style.fill = getColor(p)
     })
 
     // Remove all elements with white background (just leaving the outline)
