@@ -1,29 +1,105 @@
+---
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>NYC Space/Time Directory - Architecture</title>
+  <title>Architecture - NYC Space/Time Directory</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/skeleton.css">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/popup.css">
-  <script src="js/d3.v3.min.js" charset="utf-8"></script>
-  <link rel="shortcut icon" href="images/favicon.png">
+  <script src="{{ site.interactive-architecture-url }}js/d3.v4.min.js" charset="utf-8"></script>
+  <script src="http://interactive-architecture.dev/js/interactive-architecture.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="{{ site.interactive-architecture-url }}css/interactive-architecture.css">
+  <link rel="stylesheet" href="{{ site.interactive-architecture-url }}css/markdown-popup.css">
+  <style>
+    header {
+      border-top-color: #ef5526;
+      border-top-style: solid;
+      border-top-width: 5px;
+    }
+
+    body {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      position: relative;
+
+      font-size: 18px;
+      line-height: 1.65;
+      background-color: #fefefe;
+
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    }
+
+    body > article {
+      padding: 0 2em;
+      width: 100%;
+      box-sizing: border-box;
+      margin: 0 auto;
+      max-width: 900px;
+    }
+
+    body,
+    body > article > p a,
+    body > article > p a:visited {
+      color: #333;
+    }
+
+    body > article > p a,
+    body > article > p a:visited {
+      text-decoration: none;
+      border-bottom-color: #ef5526;
+      border-bottom-style: solid;
+      border-bottom-width: 2px;
+    }
+
+    /* Architecture
+    ========================================================================== */
+
+    #architecture svg {
+      width: 120%;
+      margin-left: -10%;
+    }
+
+    #architecture svg {
+      margin-bottom: 2em;
+    }
+
+    @media (min-width: 1450px) {
+      #architecture svg {
+        width: calc(100% + 300px);
+        margin-left: -150px;
+      }
+    }
+
+    /* Blocks
+    ========================================================================== */
+
+    #architecture .architecture-popup-error {
+      color: #ef5526;
+    }
+
+    #architecture a:hover path {
+      stroke: #ef5526 !important;
+      stroke-width: 4px !important;
+    }
+
+  </style>
 </head>
 <body>
   <header></header>
-  <div class="container" id="contents">
+  <article>
     <h1>NYC Space/Time Directory - Architecture</h1>
     <p>
-      This diagram shows the <i>current state</i> of the evolving technical architecture of the <a href="http://spacetime.nypl.org">NYC Space/Time Directory</a> project, currently in development by <a href="http://labs.nypl.org">NYPL Labs</a>.
-      The diagram shows how tools and components work together, and how they share data. It does not show the final state of the project — new blocks will be added as the project
+      This diagram shows the <i>current state</i> of the evolving technical architecture of the <a href="http://spacetime.nypl.org">NYC Space/Time Directory</a> project. The diagram shows how tools and components work together, and how they share data. It does not show the final state of the project — new blocks will be added as the project
       procedes and work is started on new datasets, data processing tools and user interfaces. Parts of the Space/Time Directory are based on <a href="http://histograph.io">Histograph</a>,
       a search engine for historical place names built by <a href="http://waag.org">Waag Society</a>.
     </p>
     <p>
+      For more information about the NYC Space/Time Directory, see <a href="http://spacetime.nypl.org/">spacetime.nypl.org</a>.
+    </p>
+    <p>
       In this diagram, only code and data components of the Space/Time Directory project are shown. Other, and equally important parts of the project (e.g. outreach, meetups, hackathons, collaborations),
-      are (currently) not shown in this diagram.
+      are not shown in this diagram.
     </p>
     <p>
       Finished components are <span class='legend-block finished-color5'>green</span>, components on which work has not started are <span class='legend-block finished-color1'>white</span>,
@@ -36,18 +112,40 @@
     <p>
       This architecture diagram itself can be <a href="https://github.com/nypl-spacetime/architecture">found on
       GitHub</a> too. Please <a href="https://github.com/nypl-spacetime/architecture/issues">open an issue</a> if
-      the diagram is incorrect or out of date. And it's easy to <a href="https://github.com/nypl-spacetime/architecture/blob/gh-pages/README.md">make a similar diagram</a> for your own project!
+      the diagram is incorrect or out of date. And it's easy to <a href="https://github.com/nypl-spacetime/interactive-architecture.js">make a similar diagram</a> for your own project!
     </p>
-    <div id="popup" class="arrow-box hidden">
-      <div id="popup-link">
-        <a href="" target="_blank">Open this README in a new window</a>
-      </div>
-      <div id="popup-contents" class="markdown-body">
-      </div>
-    </div>
-  </div>
-  <footer></footer>
-  <script src="js/github-auth.js" charset="utf-8"></script>
-  <script src="js/architecture.js" charset="utf-8"></script>
+  <article>
+  <script>
+
+  var namespaces = {
+    s3: 's3://spacetime.nypl.org/datasets/wards',
+    gh: 'https://github.com/'
+  }
+
+  var config = {
+    getHref: function (link) {
+      return link.getAttribute('xl:href')
+    },
+    getStyle: function (href, link) {
+      return {
+        fill: 'rgba(255, 255, 255, 0)',
+        // stroke: '#ef5526',
+        strokeWidth: '2px'
+      }
+    },
+    getPopupContents: function (href, link) {
+      if (href.indexOf(namespaces.gh) >= 0) {
+        return iA.gitHub.getReadme(href)
+      } else {
+        return 'Honden!'
+      }
+    },
+    getBadgeNumber: function (href, link) {
+      // return 3
+    }
+  }
+
+  iA.architecture.create('#architecture', 'architecture.svg', config)
+  </script>
 </body>
 </html>
