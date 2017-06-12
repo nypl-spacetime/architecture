@@ -1,2 +1,3 @@
 baseurl:
+dataset-graph-url: http://data-dependencies.dev/spacetime-graph.svg
 interactive-architecture-url: http://interactive-architecture.dev/
