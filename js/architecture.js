@@ -7,13 +7,6 @@ var config = {
   getHref: function (link) {
     return link.getAttribute('xl:href')
   },
-  getStyle: function (href, link) {
-    return {
-      fill: 'rgba(255, 255, 255, 0)',
-      // stroke: '#ef5526',
-      strokeWidth: '2px'
-    }
-  },
   getPopupContents: function (href, link) {
     if (href.indexOf(namespaces.gh) >= 0) {
       return iA.gitHub.getReadme(href)

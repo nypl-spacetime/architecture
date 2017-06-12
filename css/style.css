@@ -168,6 +168,11 @@ body > article > p a:visited {
   color: #ef5526;
 }
 
+.interactive-architecture a path,
+.interactive-architecture a ellipse {
+  fill: white !important;
+}
+
 .interactive-architecture a:hover path,
 .interactive-architecture a:hover ellipse {
   stroke: #ef5526 !important;
