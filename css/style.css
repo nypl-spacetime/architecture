@@ -156,8 +156,8 @@ body > article > p a:visited {
 
 @media (min-width: 1450px) {
   #architecture svg {
-    width: calc(100% + 300px);
-    margin-left: -150px;
+    width: calc(100% + 180px);
+    margin-left: -90px;
   }
 }
 
