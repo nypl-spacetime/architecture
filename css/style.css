@@ -47,6 +47,11 @@ body > article > p a:visited {
 /* SVGs
 ========================================================================== */
 
+.interactive-architecture {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
 #datasets {
   width: 100%;
   max-width: 100%;
