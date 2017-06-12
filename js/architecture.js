@@ -32,6 +32,5 @@ iA.architecture.create('#architecture', 'architecture.svg', config)
 iA.architecture.create('#datasets', datasetsUrl, datasetsConfig, function () {
   var datasetsContainer = document.getElementById('datasets')
   var datasetsSvg = document.querySelector('#datasets svg')
-  console.log(datasetsSvg.clientWidth / 2, datasetsContainer.clientWidth / 2)
   datasetsContainer.scrollLeft = datasetsSvg.clientWidth / 2 - datasetsContainer.clientWidth / 2
 })
