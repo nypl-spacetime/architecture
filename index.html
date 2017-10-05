@@ -17,14 +17,14 @@
   <article>
     <h1>NYC Space/Time Directory - Architecture</h1>
     <p>
-      This diagram shows the architecture of NYPL's <a href="http://spacetime.nypl.org">NYC Space/Time Directory</a> project — it shows how tools and components work together, and how they share data. Parts of the NYC Space/Time Directory are based on <a href="http://histograph.io">Histograph</a>, a search engine for historical place names built by <a href="http://waag.org">Waag Society</a>.
+      This diagram shows the architecture of NYPL’s <a href="http://spacetime.nypl.org">NYC Space/Time Directory</a> project — it shows how tools and components work together, and how they share data. Parts of the NYC Space/Time Directory are based on <a href="http://histograph.io">Histograph</a>, a search engine for historical place names built by <a href="http://waag.org">Waag Society</a>.
     </p>
     <p>
       For more information about the NYC Space/Time Directory, see <a href="http://spacetime.nypl.org/">spacetime.nypl.org</a>. Click on any of the project's components to open it's GitHub README file.
     </p>
     <div id='architecture'></div>
     <p>
-      Space/Time's <a href="https://github.com/nypl-spacetime/orchestrator">Orchestrator</a> runs all ETL modules in the right order, and takes their dependencies into account. For example, to create a dataset of historical addresses (e.g. <i>23½ Myrtle Avenue</i>), the ETL module <a href="https://github.com/nypl-spacetime/etl-building-inspector-nyc-streets"><code>etl-building-inspector-nyc-streets</code></a> combines the locations of historical house numbers with a list of NYC's streets. For more information about this process, see our <a href="https://github.com/nypl-spacetime/tutorial-historical-addresses">tutorial on historical addresses</a>.
+      Space/Time’s <a href="https://github.com/nypl-spacetime/orchestrator">Orchestrator</a> runs all ETL modules in the right order, and takes their dependencies into account. For example, to create a dataset of historical addresses (e.g. <i>23½ Myrtle Avenue</i>), the ETL module <a href="https://github.com/nypl-spacetime/etl-addresses"><code>etl-addresses</code></a> combines the locations of historical house numbers with a list of NYC’s streets. For more information about this process, see our <a href="https://github.com/nypl-spacetime/tutorial-historical-addresses">tutorial on historical addresses</a>.
     </p>
     <div id='datasets'></div>
     <p>
