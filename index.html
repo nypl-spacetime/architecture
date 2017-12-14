@@ -20,17 +20,17 @@
       This diagram shows the architecture of NYPL’s <a href="http://spacetime.nypl.org">NYC Space/Time Directory</a> project — it shows how tools and components work together, and how they share data. Parts of the NYC Space/Time Directory are based on <a href="http://histograph.io">Histograph</a>, a search engine for historical place names built by <a href="http://waag.org">Waag Society</a>.
     </p>
     <p>
-      For more information about the NYC Space/Time Directory, see <a href="http://spacetime.nypl.org/">spacetime.nypl.org</a>. Click on any of the project's components to open it's GitHub README file.
+      Click on any of the project’s components to open it’s GitHub README file. The project’s <a href="https://github.com/nypl-spacetime/documentation">Documentation repository on GitHub</a> provides more details about the dependencies of various components of the project.
     </p>
-    <div id='architecture'></div>
+    <div id="architecture"></div>
     <h2><a name="datasets">Datasets &amp; their Dependencies</a></h2>
     <p>
       NYC Space/Time Directory’s <a href="https://github.com/nypl-spacetime/orchestrator">Orchestrator</a> runs all ETL modules in the right order, and takes their dependencies into account. For example, to create a dataset of historical addresses (e.g. <i>23½ Myrtle Avenue</i>), the ETL module <a href="https://github.com/nypl-spacetime/etl-addresses"><code>etl-addresses</code></a> combines the locations of historical house numbers with a list of NYC’s streets. For more information about this process, see our <a href="https://github.com/nypl-spacetime/tutorial-historical-addresses">tutorial on historical addresses</a>.
     </p>
-    <div id='datasets'></div>
+    <div id="datasets"></div>
     <p>
       This architecture diagram itself can be <a href="https://github.com/nypl-spacetime/architecture">found on
-      GitHub</a>, too. And it's easy to <a href="https://github.com/nypl-spacetime/interactive-architecture.js">make a similar diagram</a> for your own project!
+      GitHub</a>, too. And it’s easy to <a href="https://github.com/nypl-spacetime/interactive-architecture.js">make a similar diagram</a> for your own project!
     </p>
     <p>
       <a id="nypl" href="https://nypl.org/"><img src="images/nypl.svg" /></a>
